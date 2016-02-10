@@ -65,6 +65,25 @@ To work around these issues, prefer using event delegation on `document.document
 
 Also note that libraries which feature Turbolinks Classic integration may not work as expected with Turbolinks 5.
 
+# Contributing to Turbolinks
+
+Turbolinks is open-source software, freely distributable under the terms of an [MIT-style license](LICENSE). The [source code is hosted on GitHub](https://github.com/turbolinks/turbolinks). Development was sponsored by [Basecamp](https://basecamp.com/).
+
+We welcome contributions in the form of bug reports, pull requests, or thoughtful discussions in the [GitHub issue tracker](https://github.com/turbolinks/turbolinks/issues).
+
+#### Building From Source
+
+Turbolinks is written in [CoffeeScript](https://github.com/jashkenas/coffee-script) and compiled to JavaScript with [Blade](https://github.com/javan/blade). To build from source you’ll need a recent version of Ruby. From the root of your Turbolinks checkout, issue the following commands to build the distributable files in `dist/`:
+
+```
+$ gem install bundler
+$ bundle install
+$ bin/blade build
+```
+
+#### Running Tests
+
+Follow the instructions for *Building From Source* above. Then run `bin/blade runner` and visit the displayed URL in your browser to run the Turbolinks test suite.
 
 ---
 
