@@ -1,6 +1,8 @@
 # Turbolinks
 
-**Turbolinks makes navigating your web application faster.** In standard browser navigation every page is loaded anew. Resources are downloaded, JavaScript is evaluated, and CSS is processed. This takes time. But in most web applications these resources don't change between requests. So why spend time reloading them? Turbolinks speeds up navigation by persisting the current page and updating its contents in place, without reloading expensive resources. The result is dramatically improved load times.
+**Turbolinks makes navigating your web application faster.** In standard browser navigation every page is loaded anew. Resources are downloaded, JavaScript is evaluated, and CSS is processed. This takes time. But in most web applications these resources don't change between requests. So why spend time reloading them? Turbolinks speeds up navigation by persisting the current page and updating its contents in place.
+
+With Turbolinks you get the performance benefits of a single-page application without the added complexity of a client-side JavaScript framework. Use HTML to render your views on the server side and link to pages as usual. When you follow a link, Turbolinks automatically fetches the page, swaps in its `<body>`, and merges its `<head>`, all without incurring the cost of a full page load.
 
 * graphic *
 
@@ -8,7 +10,7 @@
 
 - * good web citizen: works with back, reload automatically *
 - Optimizes navigation automatically. No need to annotate links or specify which parts of the page should change.
-- No server-side cooperation neccessary. Respond with full HTML pages, not fragments.
+- No server-side cooperation necessary. Respond with full HTML pages, not fragments.
 - Instant navigation with caching. Recently-visited pages are redisplayed immediately and updated when a fresh response arrives.
 - Custom adapters allow for precise, fine-grained control of the navigation lifecycle.
 
