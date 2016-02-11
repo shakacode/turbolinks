@@ -42,7 +42,7 @@ Internally, Turbolinks models navigation as a *visit* to a *location* with an *a
 
 New navigation (e.g. clicking a link) has an action of either *advance* or *replace* and creates or updates a history entry respectively. In both cases Turbolinks will request the given location over the network. If available, a cached version will be shown immediately and updated when the response arrives.
 
-History navigation (e.g. clicking the "back" button) has an action of *restore* and returns to a previous history entry. If available, a cached version of the restored location will be shown immediately and *no* network request will be made to refresh it. Otherwise a request will be performed. In either case, scroll position will be restored.
+History navigation (e.g. clicking the “back” or “forward” buttons in your browser) has an action of *restore*. If available, a cached version of the restored location will be shown immediately and *no* network request will be made to refresh it. Otherwise a request will be performed. In either case, scroll position will be restored.
 
 ## Previews and Caching
 
