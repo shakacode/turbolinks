@@ -18,9 +18,15 @@ With Turbolinks you get the performance benefits of a single-page application wi
 
 Turbolinks works in all modern desktop and mobile browsers. It depends on the [HTML5 History API](http://caniuse.com/#search=pushState) and [Window.requestAnimationFrame](http://caniuse.com/#search=requestAnimationFrame) and degrades gracefully in their absence. In unsupported browsers navigation proceeds normally.
 
-# Installation
+## Installation for Rails Applications
 
-* rewrite *
+1. Add the `turbolinks` gem, version 5, to your Gemfile: `gem 'turbolinks', '~> 5.0.0.beta'`
+2. Run `bundle install`.
+3. Add `//= require turbolinks` to your JavaScript manifest file (usually found at `app/assets/javascripts/application.js`).
+
+## Using Turbolinks Outside of a Rails Application
+
+Simply include [`dist/turbolinks.js`](dist/turbolinks.js) in your app's JavaScript bundle.
 
 # Concepts
 
