@@ -60,12 +60,12 @@ You can clear the page cache at any time by calling `Turbolinks.clearCache()`.
 
 # Basic Usage
 
-## Specifying Navigation Actions
+## Specifying a Navigation Action
 
-The default action when clicking a link is `advance`. To specify that `replace` be used instead, annotate link elements with `data-turbolinks-action=replace`.
+The default action when clicking a link is `advance`. To specify that `replace` be used instead, annotate your link with `data-turbolinks-action=replace`.
 
 ```html
-<a href="/" data-turbolinks-action=replace>Home</a>
+<a href="/edit" data-turbolinks-action=replace>Edit</a>
 ```
 
 The `restore` action is reserved for internal use during history navigation.
@@ -76,11 +76,11 @@ To navigate programatically call `Turbolinks.visit` with a *location* and an opt
 
 ```javascript
 // Visit this location and push a new history entry
-Turbolinks.visit("/news")
-Turbolinks.visit("/news", { action: "advance" })
+Turbolinks.visit("/new")
+Turbolinks.visit("/new", { action: "advance" })
 
 // Replace the current history entry
-Turbolinks.visit("/news", { action: "replace" })
+Turbolinks.visit("/edit", { action: "replace" })
 ```
 
 Note that programmatic visits trigger the `turbolinks:visit` event and may be canceled by listeners, in which case no navigation will occur.
