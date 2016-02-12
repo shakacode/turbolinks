@@ -83,8 +83,6 @@ Turbolinks.visit("/new", { action: "advance" })
 Turbolinks.visit("/edit", { action: "replace" })
 ```
 
-Note that programmatic visits trigger the `turbolinks:visit` event and may be canceled by listeners, in which case no navigation will occur.
-
 ## Observing Navigation Events
 
 Turbolinks emits events that allow you to track the navigation lifecycle and respond to page loading. Except where noted, events are fired on `document`.
