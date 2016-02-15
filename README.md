@@ -30,9 +30,9 @@ Simply include [`dist/turbolinks.js`](dist/turbolinks.js) in your app's JavaScri
 
 # Concepts
 
-Turbolinks works by listening for clicks on `<a>` elements referencing a location on the current origin. When an eligible link is clicked, Turbolinks requests its location via XHR, loads the response, and updates the `head` and `body` of the current page without replacing the `document`. Critically, external `script`, `style`, and `link` elements are considered *permanent* and are not replaced.
+Turbolinks works by listening for clicks on `<a>` elements referencing an HTML document on the current origin. When an eligible link is clicked, Turbolinks requests its location via XHR, loads the response, merges its `<head>`, and swaps in its `<body>`. Critically, `<script>`, `<style>`, and `<link>` elements in the `<head>` are considered *permanent* and not replaced.
 
-Turbolinks is designed to emulate standard browser behavior as closely as possible: location, history, page title, and scroll position behave exactly as you'd expect.
+Turbolinks is designed to emulate standard browser behavior as closely as possible: location, history, page title, and scroll position all behave exactly as you'd expect.
 
 ## Navigating with Turbolinks
 
@@ -99,7 +99,7 @@ Turbolinks emits events that allow you to track the navigation lifecycle and res
 
 Because Turbolinks navigation proceeds without a full load, the browser's native progress indicator won't be activated. Turbolinks ships with a JavaScript and CSS-based progress bar to compensate.
 
-The progress bar is implemented as a `<div>` element with the class name `.turbolinks-progress-bar`. Its default styles are included first in the document head such that they can be overridden by rules that come later. For example, a thick green progress bar:
+The progress bar is implemented as a `<div>` element with the class name `turbolinks-progress-bar`. Its default styles are included first in the document head such that they can be overridden by rules that come later. For example, a thick green progress bar:
 
 ```css
 .turbolinks-progress-bar {
