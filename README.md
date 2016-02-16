@@ -34,29 +34,29 @@ Turbolinks works by listening for clicks on `<a>` elements referencing an HTML d
 
 Turbolinks is designed to emulate standard browser behavior as closely as possible: location, history, page title, and scroll position all behave exactly as you'd expect.
 
-## Navigating with Turbolinks
+## TODO: Navigating with Turbolinks
 
 Internally, Turbolinks models navigation as a *visit* to a *location* with an *action*. Actions are named for the effect they have on history.
 
-* introduce graphics, split into three paragraphs, include forward button *
+_(introduce graphics, split into three paragraphs)_
 
 New navigation (e.g. clicking a link) has an action of either *advance* or *replace* and creates or updates a history entry respectively. In both cases Turbolinks will request the given location over the network. If available, a cached version will be shown immediately and updated when the response arrives.
 
 History navigation (e.g. clicking the “back” or “forward” buttons in your browser) has an action of *restore*. If available, a cached version of the restored location will be shown immediately and *no* network request will be made to refresh it. Otherwise a request will be performed. In either case, scroll position will be restored.
 
-## Previews and Caching
+## TODO: Previews and Caching
 
 Turbolinks caches the 10 most-recently-visited pages in memory for instant display on the next visit. The current page is saved to the cache just prior to it being replaced, ensuring that changes made to the DOM after the initial load will be reflected.
 
-* document cloning *
+_(document cloning)_
 
 Observe the `turbolinks:before-cache` event if you need to make changes or clean up any state before the page is saved.
 
 You can clear the page cache at any time by calling `Turbolinks.clearCache()`.
 
-## Lifecycle of a Visit
+## TODO: Lifecycle of a Visit
 
-* timeline graphic *
+_(timeline graphic)_
 
 # Basic Usage
 
@@ -83,17 +83,14 @@ Turbolinks.visit("/new", { action: "advance" })
 Turbolinks.visit("/edit", { action: "replace" })
 ```
 
-## Observing Navigation Events
+## TODO: Handling Significant Events
 
-Turbolinks emits events that allow you to track the navigation lifecycle and respond to page loading. Except where noted, events are fired on `document`.
+Important events:
 
-- `turbolinks:click` fires when a Turbolinks-enabled link is clicked. The clicked element is the event target. Access the requested location with `event.data.url`. Cancelable.
-- `turbolinks:visit` fires before visiting a location. Does not fire when navigating by history. Access the requested location with `event.data.url`. Cancelable.
-- `turbolinks:request-start` fires before issuing a network request to fetch a page.
-- `turbolinks:request-end` fires after a network request completes.
-- `turbolinks:before-cache` fires before the current page is saved to the cache.
-- `turbolinks:render` fires after rendering the page. Fires twice when advancing to a cached location: once after rendering the cached version and again after rendering the fresh version.
-- `turbolinks:load` fires after the page is fully loaded.
+- turbolinks:before-visit
+- turbolinks:before-cache
+- turbolinks:load
+
 
 ## Displaying Progress
 
@@ -138,16 +135,18 @@ Turbolinks is automatically enabled for internal links to HTML documents on the 
 </div>
 ```
 
-# Building Your Turbolinks Application
+# TODO: Building Your Turbolinks Application
 
-## Observing Page Loads
+_(discuss SJR in the context of updating the page; contrast with normal navigation)_
+
+## TODO: Observing Page Loads
 
 - Listen for `turbolinks:load`
 - `turbolinks:load` fires once on the initial page load in response to DOMContentLoaded, and again on every Turbolinks visit, whether it’s triggered by history, a link click, or a call to `Turbolinks.visit()`.
 - Keep track of elements you've already processed by adding a data attribute
 - DOM transformations should be idempotent. It should be safe to apply them at any time.
 
-## Handling Dynamic Updates
+## TODO: Handling Dynamic Updates
 
 Prefer using event delegation on `document.documentElement`, `document`, or `window`. Consider using `MutationObserver` to install behavior on elements as they’re added to the page.
 
@@ -161,7 +160,7 @@ The constraint with this approach is that all DOM manipulation must be idempoten
 
 ## Following Redirects
 
-XHR follows redirects. If you visit location A and it redirects to location B, we want B to be reflected in history and the address bar. To make this work requires cooperation from the server. There's no way to tell whether an XHR request was redirected via JavaScript alone.
+Turbolinks makes requests using `XMLHttpRequest`, and XHR transparently follows redirects. If you visit location A and it redirects to location B, we want B to be reflected in history and the address bar. To make this work requires cooperation from the server. There's no way to tell whether an XHR request was redirected via JavaScript alone.
 
 Turbolinks will look for the `Turbolinks-Location` header in response to a visit and use its value to update history and the address bar. Send this header from the server when responding with a page that was arrived at by redirection, and whose location you want reflected.
 
@@ -199,22 +198,10 @@ If form submission has resulted in a state change on the server that will affect
 
 If you're using Turbolinks with a Rails application this optimization will happen automatically for non-GET XHR requests that redirect using `redirect_to`.
 
-```ruby
-def create
-  message = Message.create!(message_params)
-
-  # Returns JavaScript to perform redirection via Turbolinks
-  # if the request is XHR and non-GET.
-  redirect_to message
-end
-```
-
-To prevent this, that is, to perform the redirect normally, use `redirect_to destination, turbolinks: false`.
-
 
 # Advanced Usage
 
-## Permanent Elements
+## Designating Permanent Elements
 
 Consider a Turbolinks application with a shopping cart. At the top of each page is an icon with the number of items currently in the cart. This counter is updated dynamically with JavaScript as items are added and removed.
 
@@ -224,9 +211,22 @@ To avoid this problem, Turbolinks allows you to mark certain elements as _perman
 
 Designate permanent elements by giving them an HTML `id` and annotating them with `data-turbolinks-permanent`. Before each render, Turbolinks matches all permanent elements by `id` and transfers them from the original page to the new page, preserving their data and event listeners.
 
-## Setting a Root Location
+## TODO: Setting a Root Location
 
-# Differences From Earlier Versions
+## Full List of Events
+
+Turbolinks emits events that allow you to track the navigation lifecycle and respond to page loading. Except where noted, events are fired on `document`.
+
+- `turbolinks:click` fires when a Turbolinks-enabled link is clicked. The clicked element is the event target. Access the requested location with `event.data.url`. Cancelable.
+- `turbolinks:visit` fires before visiting a location. Does not fire when navigating by history. Access the requested location with `event.data.url`. Cancelable.
+- `turbolinks:request-start` fires before issuing a network request to fetch a page.
+- `turbolinks:request-end` fires after a network request completes.
+- `turbolinks:before-cache` fires before the current page is saved to the cache.
+- `turbolinks:before-render` fires before rendering the page.
+- `turbolinks:render` fires after rendering the page. Fires twice when advancing to a cached location: once after rendering the cached version and again after rendering the fresh version.
+- `turbolinks:load` fires after the page is fully loaded.
+
+# TODO: Differences From Earlier Versions
 
 # Known Issues
 
