@@ -216,11 +216,13 @@ To prevent this, that is, to perform the redirect normally, use `redirect_to des
 
 ## Permanent Elements
 
-By default, Turbolinks replaces the entire `<body>` element when loading a page. However, it’s common to have certain fixed elements within the body that appear on most pages, like a sidebar or top menu. Turbolinks allows you to designate such elements as “permanent”. Permanent elements persist across page loads, and can improve navigation performance by eliminating the need to re-initialize state or appearance.
+Consider a Turbolinks application with a shopping cart. At the top of each page is an icon with the number of items currently in the cart. This counter is updated dynamically with JavaScript as items are added and removed.
 
-Designate permanent elements by giving them an HTML `id` and annotating them with `data-turbolinks-permanent`. When Turbolinks loads a new page, it will transfer all matching permanent elements from the original body into the new body, preserving their data and event listeners.
+Now imagine a user who has navigated to several pages in this application. She adds an item to her cart, then presses the Back button in her browser. Upon navigation, Turbolinks restores the previous page’s state from cache, and the cart item count erroneously changes from 1 to 0.
 
-## Recyclable Elements
+To avoid this problem, Turbolinks allows you to mark certain elements as _permanent_. Permanent elements persist across page loads, so that any changes made to those elements do not need to be reapplied after navigation.
+
+Designate permanent elements by giving them an HTML `id` and annotating them with `data-turbolinks-permanent`. Before each render, Turbolinks matches all permanent elements by `id` and transfers them from the original page to the new page, preserving their data and event listeners.
 
 ## Setting a Root Location
 
