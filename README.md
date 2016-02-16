@@ -149,6 +149,57 @@ Turbolinks is automatically enabled for internal links to HTML documents on the 
 
 ## Following Redirects
 
+XHR follows redirects. If you visit location A and it redirects to location B, we want B to be reflected in history and the address bar. To make this work requires cooperation from the server. There's no way to tell whether an XHR request was redirected via JavaScript alone.
+
+Turbolinks will look for the `Turbolinks-Location` header in response to a visit and use its value to update history and the address bar. Send this header from the server when responding with a page that was arrived at by redirection, and whose location you want reflected.
+
+Consider the following Turbolinks visit and abbreviated HTTP conversation.
+
+```
+Turbolinks.visit("/one")
+
+> GET /one
+< 302 Moved Temporarily
+< Location: http://localhost/two
+
+> GET /two # XHR follows the redirect
+< 200 OK
+< Turbolinks-Location: http://localhost/two
+
+window.location.pathname # => "/two"
+```
+
+We visit “/one” and are redirected to “/two”, which XHR dutifully follows. The response from “/two” includes a  `Turbolinks-Location` header to inform Turbolinks of the location change. If the header were omitted, `window.location.pathname` would still be “/one”.
+
+If you're using Turbolinks with a Rails application `Turbolinks-Location` is set automatically when using `redirect_to` in response to a Turbolinks visit. Other frameworks are encouraged to provide similar integration.
+
+## Redirecting After a Form is Submitted
+
+Submitting an HTML form to the server and redirecting in response is a common pattern in web applications. Standard form submission is similar to navigation, resulting in a full page load. Using Turbolinks you can improve the performance of form submission without complicating your server-side code.
+
+Instead of submitting forms normally, submit them with XHR. In response to an XHR submit on the server, return JavaScript that performs a Turbolinks visit to be evaluated by the browser.
+
+```javascript
+Turbolinks.visit(destination)
+```
+
+If form submission has resulted in a state change on the server that will affect cached pages, consider clearing Turbolinks’ cache with `Turbolinks.clearCache()`.
+
+If you're using Turbolinks with a Rails application this optimization will happen automatically for non-GET XHR requests that redirect using `redirect_to`.
+
+```ruby
+def create
+  message = Message.create!(message_params)
+
+  # Returns JavaScript to perform redirection via Turbolinks
+  # if the request is XHR and non-GET.
+  redirect_to message
+end
+```
+
+To prevent this, that is, to perform the redirect normally, use `redirect_to destination, turbolinks: false`.
+
+
 # Advanced Usage
 
 ## Permanent Elements
