@@ -216,6 +216,10 @@ To prevent this, that is, to perform the redirect normally, use `redirect_to des
 
 ## Permanent Elements
 
+By default, Turbolinks replaces the entire `<body>` element when loading a page. However, it’s common to have certain fixed elements within the body that appear on most pages, like a sidebar or top menu. Turbolinks allows you to designate such elements as “permanent”. Permanent elements persist across page loads, and can improve navigation performance by eliminating the need to re-initialize state or appearance.
+
+Designate permanent elements by giving them an HTML `id` and annotating them with `data-turbolinks-permanent`. When Turbolinks loads a new page, it will transfer all matching permanent elements from the original body into the new body, preserving their data and event listeners.
+
 ## Recyclable Elements
 
 ## Setting a Root Location
