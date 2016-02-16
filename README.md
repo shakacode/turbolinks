@@ -110,9 +110,9 @@ The progress bar is implemented as a `<div>` element with the class name `turbol
 
 ## Reloading When Assets Change
 
-* explain why *
+When you navigate with Turbolinks, external assets like JavaScript and CSS aren’t reloaded on each request. But let’s say you’ve deployed your application with changes to those assets – how can you ensure that Turbolinks is always using their latest versions?
 
-Turbolinks can track asset URLs and reload automatically when they change. Ensure you can invalidate assets by URL (a common practise is to include a digest of the asset in its name) and denote tracked assets with `data-turbolinks-track=reload`.
+Turbolinks can track asset elements in the page `<head>` and reload automatically when the next navigation reveals them to have changed. Denote tracked elements with `data-turbolinks-track=reload` and include some value in the asset’s URL to indicate its revision. This could be a version number, a last-modified timestamp, or more commonly, a digest of the asset’s contents, as in the following example.
 
 ```html
 <head>
@@ -121,6 +121,8 @@ Turbolinks can track asset URLs and reload automatically when they change. Ensur
   <script src="/application-cbd3cd4.js" data-turbolinks-track=reload></script>
 </head>
 ```
+
+When Turbolinks attempts to load a page whose tracked asset elements differ from those of the current page, it ceases further processing and loads the page in full. Note that when this occurs the page will be requested twice: once when it’s determined that tracked assets have changed, and again when it’s loaded in full.
 
 ## Opting Out
 
