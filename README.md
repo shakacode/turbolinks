@@ -137,15 +137,27 @@ Turbolinks is automatically enabled for internal links to HTML documents on the 
   <a href="/" data-turbolinks=true>Enabled</a>
 </div>
 ```
----
 
 # Building Your Turbolinks Application
 
 ## Observing Page Loads
 
+- Listen for `turbolinks:load`
+- `turbolinks:load` fires once on the initial page load in response to DOMContentLoaded, and again on every Turbolinks visit, whether it’s triggered by history, a link click, or a call to `Turbolinks.visit()`.
+- Keep track of elements you've already processed by adding a data attribute
+- DOM transformations should be idempotent. It should be safe to apply them at any time.
+
 ## Handling Dynamic Updates
 
+Prefer using event delegation on `document.documentElement`, `document`, or `window`. Consider using `MutationObserver` to install behavior on elements as they’re added to the page.
+
 ## Previews, Caching, and Clone Safety
+
+Before rendering a new page, Turbolinks clones the current page’s `<body>` and saves it to the snapshot cache. Whenever Turbolinks displays a cached page—either by a restore visit using the Back or Forward buttons, or by showing a preview during an advance visit to an already-visited location—all elements are freshly cloned, which means they have no attached event listeners or associated data.
+
+The benefits of this approach are that it’s simpler to reason about when to register event listeners (no need to distinguish between page “change” and page “load”), and that Turbolinks is less likely to leak memory (because existing event listeners are discarded).
+
+The constraint with this approach is that all DOM manipulation must be idempotent. If you transform the document with JavaScript, you must make sure it’s safe to perform that transformation again, particularly on a cloned copy of the element. In practice, this usually means using a data attribute or some other heuristic to detect when an element has already been processed.
 
 ## Following Redirects
 
