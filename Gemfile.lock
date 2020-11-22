@@ -80,7 +80,7 @@ GEM
     minitest (5.8.4)
     multi_json (1.11.2)
     multipart-post (2.0.0)
-    rack (1.6.4)
+    rack (1.6.13)
     rake (10.4.2)
     rubyzip (1.1.7)
     selenium-webdriver (2.48.1)
